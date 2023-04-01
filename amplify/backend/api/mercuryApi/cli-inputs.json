@@ -1,0 +1,12 @@
+{
+  "version": 1,
+  "paths": {
+    "/user/{userId}": {
+      "name": "/user/{userId}",
+      "lambdaFunction": "mercuryApiLambda",
+      "permissions": {
+        "setting": "open"
+      }
+    }
+  }
+}

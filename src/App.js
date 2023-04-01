@@ -7,6 +7,14 @@ import Link from "@cloudscape-design/components/link";
 import Button from "@cloudscape-design/components/button";
 import Alert from "@cloudscape-design/components/alert";
 
+
+import {Authenticator} from "@aws-amplify/ui-react"
+import '@aws-amplify/ui-react/styles.css';
+import { Amplify, Auth } from 'aws-amplify';
+import awsconfig from './aws-exports';
+
+Amplify.configure(awsconfig);
+
 export default function App() {
   const [value, setValue] = useState("");
 

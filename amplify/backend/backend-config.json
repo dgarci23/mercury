@@ -1,3 +1,103 @@
 {
-  "hosting": {}
+  "api": {
+    "mercuryApi": {
+      "dependsOn": [
+        {
+          "attributes": [
+            "Name",
+            "Arn"
+          ],
+          "category": "function",
+          "resourceName": "mercuryApiLambda"
+        }
+      ],
+      "providerPlugin": "awscloudformation",
+      "service": "API Gateway"
+    }
+  },
+  "auth": {
+    "mercurybf28ef59": {
+      "customAuth": false,
+      "dependsOn": [],
+      "frontendAuthConfig": {
+        "mfaConfiguration": "OFF",
+        "mfaTypes": [
+          "SMS"
+        ],
+        "passwordProtectionSettings": {
+          "passwordPolicyCharacters": [],
+          "passwordPolicyMinLength": 8
+        },
+        "signupAttributes": [
+          "EMAIL",
+          "NAME",
+          "PHONE_NUMBER"
+        ],
+        "socialProviders": [],
+        "usernameAttributes": [],
+        "verificationMechanisms": [
+          "EMAIL"
+        ]
+      },
+      "providerPlugin": "awscloudformation",
+      "service": "Cognito"
+    }
+  },
+  "function": {
+    "mercuryApiLambda": {
+      "build": true,
+      "providerPlugin": "awscloudformation",
+      "service": "Lambda"
+    },
+    "mercurySignupLambda": {
+      "build": true,
+      "providerPlugin": "awscloudformation",
+      "service": "Lambda"
+    }
+  },
+  "hosting": {},
+  "parameters": {
+    "AMPLIFY_function_mercuryApiLambda_deploymentBucketName": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "mercuryApiLambda"
+        }
+      ]
+    },
+    "AMPLIFY_function_mercuryApiLambda_s3Key": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "mercuryApiLambda"
+        }
+      ]
+    },
+    "AMPLIFY_function_mercurySignupLambda_deploymentBucketName": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "mercurySignupLambda"
+        }
+      ]
+    },
+    "AMPLIFY_function_mercurySignupLambda_s3Key": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "mercurySignupLambda"
+        }
+      ]
+    }
+  },
+  "storage": {
+    "dynamoMercury": {
+      "providerPlugin": "awscloudformation",
+      "service": "DynamoDB"
+    },
+    "mercuryDynamoDB": {
+      "providerPlugin": "awscloudformation",
+      "service": "DynamoDB"
+    }
+  }
 }

@@ -1,6 +1,5 @@
 const AWS = require('aws-sdk')
 const awsServerlessExpressMiddleware = require('aws-serverless-express/middleware')
-const { json } = require('body-parser')
 const bodyParser = require('body-parser')
 const express = require('express')
 
@@ -113,7 +112,37 @@ app.put('/user/address/:userId', function(req, res) {
         return res.json({error: 'Wrong User'});
     }
 
-    res.json({response: req.apiGateway.event.requestContext.authorizer.claims["cognito:username"]});
+    const newAddress = {
+        addressLine1: req.headers.addressline1,
+        addressLine2: req.headers.addressline2,
+        city: req.headers.city,
+        state: req.headers.state,
+        zip: req.headers.zip
+    }
+
+    //res.json({newAddress: JSON.stringify(newAddress)});
+
+    let putItemParams = {
+        TableName: userTableName,
+        Key: {
+            "userId": req.params.userId
+        },
+        UpdateExpression: "SET address = :newAddress",
+        ExpressionAttributeValues: {
+            ":newAddress": newAddress
+        }
+    };
+
+    dynamodb.update(putItemParams, (err, data) => {
+        if (err) {
+        console.log(err);
+        res.statusCode = 500;
+        res.json({error: err, url: req.url, body: req.body});
+        } else {
+        res.json({success: 'post call succeed!', url: req.url, data: data})
+        }
+    });
+
 });
 
 app.listen(3000, function() {

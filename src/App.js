@@ -1,11 +1,20 @@
 import { useState } from "react";
-import Header from "@cloudscape-design/components/header";
+import ContentLayout from "@cloudscape-design/components/content-layout";
 import Container from "@cloudscape-design/components/container";
+import Header from "@cloudscape-design/components/header";
 import SpaceBetween from "@cloudscape-design/components/space-between";
-import Input from "@cloudscape-design/components/input";
+import Link from "@cloudscape-design/components/link";
 import Button from "@cloudscape-design/components/button";
-import { ColumnLayout } from "@cloudscape-design/components";
+import Alert from "@cloudscape-design/components/alert";
+
+
+import {Authenticator} from "@aws-amplify/ui-react"
+import '@aws-amplify/ui-react/styles.css';
+import { Amplify, Auth } from 'aws-amplify';
 import AddAdressModal from "./AddAdressModal";
+import awsconfig from './aws-exports';
+
+Amplify.configure(awsconfig);
 
 export default function App() {
   const [value, setValue] = useState("");
@@ -13,35 +22,36 @@ export default function App() {
 
 
   return (
-    <SpaceBetween size="m">
-      <Container>
-        <ColumnLayout columns={2}>
-        <div>        
-          {/* put logo here */}
-          <Header variant="h1">Mercury</Header>
-        </div>
-        <div >
-          <Button style="profile-button" iconAlign="right" iconName="user-profile-active" variant="icon"/>
-        </div>
-        <div>
-          <Header variant="h5">the one stop shop for shipping adresses</Header>
-        </div>
-        </ColumnLayout>
+    <ContentLayout
+      header={
+        <SpaceBetween size="m">
+          <Header
+            variant="h1"
+            info={<Link>Info</Link>}
+            description="This is a generic description used in the header."
+            actions={
+              <Button variant="primary">Button</Button>
+            }
+          >
+            Mercury
+          </Header>
 
-      </Container>
-
-      <Container>
-        <SpaceBetween size="s">
-          <span>Start editing to see some magic happen</span>
-          <Input
-            value={value}
-            onChange={(event) => setValue(event.detail.value)}
-          />
-          <Button variant="primary">Add Addresses</Button>
-          <Button variant="primary">Manage Addresses</Button>
-          <AddAdressModal></AddAdressModal>
         </SpaceBetween>
+      }
+    >
+      <Container
+        header={
+          <Header
+            variant="h2"
+            description="Container description"
+          >
+            Container header
+          </Header>
+        }
+      >
+        Container content
       </Container>
-    </SpaceBetween>
+      <AddAdressModal></AddAdressModal>
+    </ContentLayout>
   );
 }

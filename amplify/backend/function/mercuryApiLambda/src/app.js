@@ -1,5 +1,6 @@
 const AWS = require('aws-sdk')
 const awsServerlessExpressMiddleware = require('aws-serverless-express/middleware')
+const { json } = require('body-parser')
 const bodyParser = require('body-parser')
 const express = require('express')
 
@@ -52,9 +53,29 @@ app.get('/user/address/:userId', function(req, res) {
         return res.json({error: 'Wrong User'});
     }
 
+    let searchParams = {
+        TableName: userTableName,
+        Key: {
+            userId: req.params.userId
+        }
+    }
 
-
-    res.json({response: req.apiGateway.event.requestContext.authorizer.claims["cognito:username"]});
+    dynamodb.get(searchParams, (err, data)=>{
+        if (err) {
+            console.log(err);
+            res.status(500);
+            res.json({error: 'Could not load items'});
+        } else {
+            const body = {
+                userId: data.Item.userId,
+                name: data.Item.name,
+                email: data.Item.email,
+                phone: data.Item.phone
+            }
+            res.status(200);
+            res.json({response: JSON.stringify(body)});
+        }
+    })
 });
 
 app.post('/user/address/:userId', function(req, res) {

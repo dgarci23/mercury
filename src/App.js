@@ -5,6 +5,7 @@ import '@aws-amplify/ui-react/styles.css';
 import { Amplify, Auth } from 'aws-amplify';
 import awsconfig from './aws-exports';
 
+
 Amplify.configure(awsconfig);
 
 function App() {
@@ -28,6 +29,7 @@ function App() {
               </a>
             </header>
             <button onClick={signOut}>Sign out</button>
+            <ProfileModal></ProfileModal>
           </div>
           )
       }}

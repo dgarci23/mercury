@@ -11,6 +11,7 @@ import Alert from "@cloudscape-design/components/alert";
 import {Authenticator} from "@aws-amplify/ui-react"
 import '@aws-amplify/ui-react/styles.css';
 import { Amplify, Auth } from 'aws-amplify';
+import AddAdressModal from "./AddAdressModal";
 import awsconfig from './aws-exports';
 
 Amplify.configure(awsconfig);
@@ -32,10 +33,9 @@ export default function App() {
               <Button variant="primary">Button</Button>
             }
           >
-            Header
+            Mercury
           </Header>
 
-          <Alert>This is a generic alert.</Alert>
         </SpaceBetween>
       }
     >
@@ -51,6 +51,7 @@ export default function App() {
       >
         Container content
       </Container>
+      <AddAdressModal></AddAdressModal>
     </ContentLayout>
   );
 }

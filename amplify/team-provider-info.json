@@ -13,6 +13,9 @@
       "APIGatewayAuthURL": "https://s3.amazonaws.com/amplify-mercury-dev-203301-deployment/amplify-cfn-templates/api/APIGatewayAuthStack.json"
     },
     "categories": {
+      "auth": {
+        "mercurybf28ef59": {}
+      },
       "storage": {
         "dynamoMercury": {},
         "mercuryDynamoDB": {}
@@ -26,12 +29,6 @@
           "deploymentBucketName": "amplify-mercury-dev-203301-deployment",
           "s3Key": "amplify-builds/mercurySignupLambda-374a73636554614b4958-build.zip"
         }
-      },
-      "api": {
-        "mercuryApi": {}
-      },
-      "auth": {
-        "mercurybf28ef59": {}
       }
     }
   }

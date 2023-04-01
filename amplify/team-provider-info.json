@@ -13,16 +13,17 @@
     },
     "categories": {
       "storage": {
-        "dynamoMercury": {}
+        "dynamoMercury": {},
+        "mercuryDynamoDB": {}
       },
       "function": {
         "mercuryApiLambda": {
           "deploymentBucketName": "amplify-mercury-dev-203301-deployment",
-          "s3Key": "amplify-builds/mercuryApiLambda-3862395157317a755355-build.zip"
+          "s3Key": "amplify-builds/mercuryApiLambda-565a4a78776334726975-build.zip"
         },
         "mercurySignupLambda": {
           "deploymentBucketName": "amplify-mercury-dev-203301-deployment",
-          "s3Key": "amplify-builds/mercurySignupLambda-59562f6d584b4d574346-build.zip"
+          "s3Key": "amplify-builds/mercurySignupLambda-6f4a682b435a78745869-build.zip"
         }
       },
       "api": {

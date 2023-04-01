@@ -1,0 +1,10 @@
+{
+  "resourceName": "mercuryDynamoDB",
+  "tableName": "companies",
+  "partitionKey": {
+    "fieldName": "companyId",
+    "fieldType": "string"
+  },
+  "gsi": [],
+  "triggerFunctions": []
+}

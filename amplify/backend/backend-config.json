@@ -94,6 +94,10 @@
     "dynamoMercury": {
       "providerPlugin": "awscloudformation",
       "service": "DynamoDB"
+    },
+    "mercuryDynamoDB": {
+      "providerPlugin": "awscloudformation",
+      "service": "DynamoDB"
     }
   }
 }

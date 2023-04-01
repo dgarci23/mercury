@@ -1,4 +1,4 @@
-import { useState } from "react";
+import React from "react";
 import ContentLayout from "@cloudscape-design/components/content-layout";
 import Header from "@cloudscape-design/components/header";
 import SpaceBetween from "@cloudscape-design/components/space-between";
@@ -16,46 +16,48 @@ import './App.css';
 import CurrentAddressComponent from "./Components/CurrentAddressComponent";
 
 Amplify.configure(awsconfig);
-
-export default function App() {
-  const [value, setValue] = useState("");
+class App extends React.Component() {
 
 
-  return (
-    <Authenticator>
-      {({signOut, user}) => {
-
-        //user = await Amplify.Auth.currentAuthenticatedUser();
-        const token = user.signInUserSession.idToken.jwtToken;
-        console.log(token);
-
-        return (
-          <div className="App">
-            <ContentLayout
-      header={
-        <SpaceBetween size="m">
-          <Header
-            variant="h1"
-            actions={
-              <Button className="vertical-center" variant="primary" iconName="user-profile-active">Profile</Button>
-            }
-          >
-            <div className="Logo-Container">
-              <img  src={MercuryLogo} className="Logo-Image" alt="logo" />
+  render() {
+    return (
+      <Authenticator>
+        {({signOut, user}) => {
+  
+          //user = await Amplify.Auth.currentAuthenticatedUser();
+          const token = user.signInUserSession.idToken.jwtToken;
+          console.log(token);
+  
+          return (
+            <div className="App">
+              <ContentLayout
+        header={
+          <SpaceBetween size="m">
+            <Header
+              variant="h1"
+              actions={
+                <Button className="vertical-center" variant="primary" iconName="user-profile-active">Profile</Button>
+              }
+            >
+              <div className="Logo-Container">
+                <img  src={MercuryLogo} className="Logo-Image" alt="logo" />
+              </div>
+  
+  
+            </Header>
+          </SpaceBetween>
+        }
+      >
+        <CurrentAddressComponent></CurrentAddressComponent>
+        <CompanyModal></CompanyModal>
+      </ContentLayout>
+              <button onClick={signOut}>Sign out</button>
             </div>
-
-
-          </Header>
-        </SpaceBetween>
-      }
-    >
-      <CurrentAddressComponent></CurrentAddressComponent>
-      <CompanyModal></CompanyModal>
-    </ContentLayout>
-            <button onClick={signOut}>Sign out</button>
-          </div>
-          )
-      }}
-    </Authenticator>
-  );
+            )
+        }}
+      </Authenticator>
+    );
+  }
 }
+
+export default App;

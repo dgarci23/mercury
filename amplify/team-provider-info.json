@@ -23,11 +23,11 @@
       "function": {
         "mercuryApiLambda": {
           "deploymentBucketName": "amplify-mercury-dev-203301-deployment",
-          "s3Key": "amplify-builds/mercuryApiLambda-3933752b77595533574c-build.zip"
+          "s3Key": "amplify-builds/mercuryApiLambda-676e5958796a36506a51-build.zip"
         },
         "mercurySignupLambda": {
           "deploymentBucketName": "amplify-mercury-dev-203301-deployment",
-          "s3Key": "amplify-builds/mercurySignupLambda-374a73636554614b4958-build.zip"
+          "s3Key": "amplify-builds/mercurySignupLambda-4972732b30634669654f-build.zip"
         }
       },
       "api": {

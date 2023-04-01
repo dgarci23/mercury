@@ -171,6 +171,41 @@ app.put('/user/address/:userId', function(req, res) {
 
 });
 
+app.put('/user/company/:userId', function(req, res) {
+
+    if (req.apiGateway.event.requestContext.authorizer.claims["cognito:username"] !== req.params.userId) {
+        res.statusCode = 401;
+        return res.json({error: 'Wrong User'});
+    }
+
+    const newCompany = req.query.company;
+
+    let putItemParams = {
+        TableName: userTableName,
+        Key: {
+            "userId": req.params.userId
+        },
+        UpdateExpression: "SET companies.#companyName = :companyValue",
+        ExpressionAttributeValues: {
+            ":companyValue": true
+        },
+        ExpressionAttributeNames: {
+            "#companyName": newCompany
+        }
+    };
+
+    dynamodb.update(putItemParams, (err, data) => {
+        if (err) {
+        console.log(err);
+        res.statusCode = 500;
+        res.json({error: "Could not add the company."});
+        } else {
+        res.json({success: 'Company added.'});
+        }
+    });
+
+});
+
 app.listen(3000, function() {
     console.log("App started");
 });  

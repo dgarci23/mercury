@@ -123,7 +123,8 @@ class CurrentAddressComponent extends React.Component {
                 <Container>
                     <SpaceBetween direction="vertical" size="s">
                         <Header variant="h2">Street: </Header>
-                        <Header variant="h4">{this.state.streetAddress1}    {this.state.streetAddress2}</Header>
+                        <Header variant="h4">{this.state.streetAddress1}</Header>
+                        <Header variant="h4">{this.state.streetAddress2}</Header>
                         <Header variant="h2">City:</Header>
                         <Header variant="h4">{this.state.city}</Header>
                         <Header variant="h2">State:</Header>

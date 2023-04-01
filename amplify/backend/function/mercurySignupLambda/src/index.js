@@ -5,4 +5,6 @@ exports.handler = (event, context, callback) => {
   
   console.log("LOG");
   console.log(event);
+
+  callback(null, event);
 };

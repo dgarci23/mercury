@@ -8,6 +8,8 @@ import Box from "@cloudscape-design/components/box";
 import Form from "@cloudscape-design/components/form";
 import FormField from "@cloudscape-design/components/form-field";
 import Input from "@cloudscape-design/components/input";
+import { Amplify } from 'aws-amplify';
+
 
 
 
@@ -24,18 +26,52 @@ class CurrentAddressComponent extends React.Component {
             city: "Dayton ",
             USstate: "Ohio",
             zipCode: "45458",
-            
+           
+        }
+        this.savedState = {
+            name: "Home Address",
+            streetAddress1: "10124 Benham Dr",
+            streetAddress2: "",
+            city: "Dayton ",
+            USstate: "Ohio",
+            zipCode: "45458",
         }
     }
 
+    async componentDidMount() {
+        const user = await Amplify.Auth.currentAuthenticatedUser();
+        const token = user.signInUserSession.idToken.jwtToken;
+        fetch(`${this.path}/user/sensor/${user.username}`, {method:"GET", headers:{Authorization:token}})
+                .then(response => response.json())
+                .then(data => { this.setState({
+                    ...this.state,
+                    name: data.name,
+                    streetAddress1: data.streetAddress1,
+                    streetAddress2: data.streetAddress2,
+                    city: data.city,
+                    USstate: data.USstate,
+                    zipCode: data.zipCode,
+        
+                });});
+    }
+
+    // resets  the address lines to what is on the database
     resetState() {
         this.setState({
-        name: "", 
-        streetAddress1: "", 
-        streetAddress2: "",
-        city: "",
-        USstate: "",
-        zipCode: "",})
+            name : this.savedState.name,
+            streetAddress1 : this.savedState.streetAddress1,
+            streetAddress2 : this.savedState.streetAddress2 ,
+            city : this.savedState.city,
+            USstate : this.savedState.USstate,
+            zipCode : this.savedState.zipCode
+        })
+
+
+    }
+
+    // pushes the current address to the database
+    pushState() {
+        this.savedState = this.state
     }
 
     setVisible(value){
@@ -48,7 +84,9 @@ class CurrentAddressComponent extends React.Component {
                 header={
                     <Header
                         variant="h1"
-                        actions={<Button onClick={()=>{this.setVisible(true)}}>Edit</Button>}
+                        actions={<Button onClick={()=>{
+                            this.setVisible(true)
+                        }}>Edit</Button>}
                     >
                             Current Address :
                     </Header>
@@ -59,14 +97,14 @@ class CurrentAddressComponent extends React.Component {
                     <SpaceBetween direction="vertical" size="s">
                         <Header variant="h2">Street: </Header>
                         <p>
-                            {this.state.streetAddress1}    {this.state.streetAddress2}
+                            {this.savedState.streetAddress1}    {this.savedState.streetAddress2}
                         </p>
                         <Header variant="h2">City:</Header>
-                        {this.state.city}
+                        {this.savedState.city}
                         <Header variant="h2">State:</Header>
-                        {this.state.USstate}
+                        {this.savedState.USstate}
                         <Header variant="h2">Zip Code:</Header>
-                        {this.state.zipCode}
+                        {this.savedState.zipCode}
  
                     </SpaceBetween>
                     
@@ -82,11 +120,13 @@ class CurrentAddressComponent extends React.Component {
                                 <Button variant="link"
                                     onClick={()=>{
                                         this.setVisible(false)
+                                        this.resetState()
                                     }}
                                 >Cancel</Button>
                                 <Button variant="primary"
                                     onClick={()=>{
                                         this.setVisible(false)
+                                        this.pushState()
                                     }}
                                 >Ok</Button>
                             </SpaceBetween>

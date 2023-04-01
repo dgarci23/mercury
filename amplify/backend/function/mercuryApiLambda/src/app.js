@@ -35,8 +35,6 @@ app.get('/user/:userId', function(req, res) {
         return res.json({error: 'Wrong User'});
     }
 
-    res.json({response: req.apiGateway.event.requestContext.authorizer.claims["cognito:username"]});
-
     let searchParams = {
         TableName: userTableName,
         Key: {
@@ -46,17 +44,18 @@ app.get('/user/:userId', function(req, res) {
 
     dynamodb.get(searchParams, (err, data) => {
         if (err) {
+            console.log(err);
             res.status(500);
             res.json({error: 'Could not load items: ' + err});
         } else {
-            const body = {
-            userId: data.Item.userId,
-            name: data.Item.name,
-            email: data.Item.email,
-            phone: data.Item.phone
+            const user = {
+                userId: data.Item.userId,
+                name: data.Item.name,
+                email: data.Item.email,
+                phone: data.Item.phone
             }
             res.status(200);
-            res.json(body);
+            res.json({response: JSON.stringify(user)});
         }
     });
 });
@@ -91,14 +90,8 @@ app.get('/user/address/:userId', function(req, res) {
             res.status(500);
             res.json({error: 'Could not load items'});
         } else {
-            const body = {
-                userId: data.Item.userId,
-                name: data.Item.name,
-                email: data.Item.email,
-                phone: data.Item.phone
-            }
             res.status(200);
-            res.json({response: JSON.stringify(body)});
+            res.json({response: JSON.stringify(data.Item.address)});
         }
     })
 });

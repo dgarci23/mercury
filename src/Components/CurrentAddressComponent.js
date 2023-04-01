@@ -20,39 +20,56 @@ class CurrentAddressComponent extends React.Component {
 
         this.state = {
             visible : false,
-            name: "Home Address",
-            streetAddress1: "10124 Benham Dr",
+            name: "",
+            streetAddress1: "",
             streetAddress2: "",
-            city: "Dayton ",
-            USstate: "Ohio",
-            zipCode: "45458",
+            city: " ",
+            USstate: "",
+            zipCode: "",
            
         }
         this.savedState = {
-            name: "Home Address",
-            streetAddress1: "10124 Benham Dr",
+            name: "",
+            streetAddress1: "",
             streetAddress2: "",
-            city: "Dayton ",
-            USstate: "Ohio",
-            zipCode: "45458",
+            city: "",
+            USstate: "",
+            zipCode: "",
         }
     }
 
-    async componentDidMount() {
+    path = "https://ebxzjgbuwa.execute-api.us-east-1.amazonaws.com/dev"
+
+    async getUserData() {
         const user = await Amplify.Auth.currentAuthenticatedUser();
         const token = user.signInUserSession.idToken.jwtToken;
-        fetch(`${this.path}/user/sensor/${user.username}`, {method:"GET", headers:{Authorization:token}})
+        fetch(`${this.path}/user/address/${user.username}`, {method:"GET", headers:{Authorization:token}})
                 .then(response => response.json())
                 .then(data => { this.setState({
                     ...this.state,
-                    name: data.name,
                     streetAddress1: data.streetAddress1,
                     streetAddress2: data.streetAddress2,
                     city: data.city,
-                    USstate: data.USstate,
-                    zipCode: data.zipCode,
+                    USstate: data.state,
+                    zipCode: data.zip,
         
                 });});
+    }
+
+    async updateStatus(){
+        const user = await Amplify.Auth.currentAuthenticatedUser();
+        const token = user.signInUserSession.idToken.jwtToken;
+        await fetch(`${this.path}/user/address/${user.username}`,
+            {method:'PUT', headers: {
+                Authorization:token, 
+                addressLine1 : this.state.streetAddress1,
+                addressLine2 : this.state.streetAddress2 ,
+                city : this.state.city,
+                state : this.state.USstate,
+                zip : this.state.zipCode 
+            }
+            }
+        )
     }
 
     // resets  the address lines to what is on the database
@@ -72,6 +89,7 @@ class CurrentAddressComponent extends React.Component {
     // pushes the current address to the database
     pushState() {
         this.savedState = this.state
+        this.updateStatus()
     }
 
     setVisible(value){

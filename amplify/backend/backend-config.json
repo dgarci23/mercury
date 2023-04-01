@@ -1,3 +1,9 @@
 {
-  "hosting": {}
+  "hosting": {},
+  "storage": {
+    "dynamoMercury": {
+      "providerPlugin": "awscloudformation",
+      "service": "DynamoDB"
+    }
+  }
 }

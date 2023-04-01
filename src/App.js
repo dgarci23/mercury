@@ -1,23 +1,24 @@
 import { useState } from "react";
+import ContentLayout from "@cloudscape-design/components/content-layout";
 import Header from "@cloudscape-design/components/header";
-import Container from "@cloudscape-design/components/container";
 import SpaceBetween from "@cloudscape-design/components/space-between";
-import Input from "@cloudscape-design/components/input";
 import Button from "@cloudscape-design/components/button";
-import { ColumnLayout } from "@cloudscape-design/components";
-import AddAdressModal from "./AddAdressModal";
-
+import MercuryLogo from "./resources/FullLogo_Transparent_NoBuffer.png"
 
 import {Authenticator} from "@aws-amplify/ui-react"
 import '@aws-amplify/ui-react/styles.css';
 import { Amplify, Auth } from 'aws-amplify';
+import AddAddressModal from "./Components/AddAddressModal";
+import ProfileModal from "./Components/ProfileModal";
+import CompanyModal from "./Components/CompanyModal";
 import awsconfig from './aws-exports';
+import './App.css';
+import CurrentAddressComponent from "./Components/CurrentAddressComponent";
 
 Amplify.configure(awsconfig);
 
 export default function App() {
   const [value, setValue] = useState("");
-
 
 
   return (
@@ -30,41 +31,31 @@ export default function App() {
 
         return (
           <div className="App">
-            <SpaceBetween size="m">
-              <Container>
-                <ColumnLayout columns={2}>
-                <div>        
-                  {/* put logo here */}
-                  <Header variant="h1">Mercury</Header>
-                </div>
-                <div >
-                  <Button style="profile-button" iconAlign="right" iconName="user-profile-active" variant="icon"/>
-                </div>
-                <div>
-                  <Header variant="h5">the one stop shop for shipping adresses</Header>
-                </div>
-                </ColumnLayout>
+            <ContentLayout
+      header={
+        <SpaceBetween size="m">
+          <Header
+            variant="h1"
+            actions={
+              <Button className="vertical-center" variant="primary" iconName="user-profile-active">Profile</Button>
+            }
+          >
+            <div className="Logo-Container">
+              <img  src={MercuryLogo} className="Logo-Image" alt="logo" />
+            </div>
 
-              </Container>
 
-              <Container>
-                <SpaceBetween size="s">
-                  <span>Start editing to see some magic happen</span>
-                  <Input
-                    value={value}
-                    onChange={(event) => setValue(event.detail.value)}
-                  />
-                  <Button variant="primary">Click me</Button>
-                  <Button variant="primary">Button</Button>
-                  <AddAdressModal></AddAdressModal>
-                </SpaceBetween>
-              </Container>
-            </SpaceBetween>
+          </Header>
+        </SpaceBetween>
+      }
+    >
+      <CurrentAddressComponent></CurrentAddressComponent>
+      <CompanyModal></CompanyModal>
+    </ContentLayout>
             <button onClick={signOut}>Sign out</button>
           </div>
           )
       }}
     </Authenticator>
-    
   );
 }

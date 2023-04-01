@@ -1,4 +1,4 @@
-export default function AddAdressModal() {
+export default function EditAddressModal() {
 
     return (
         <div> hi </div>

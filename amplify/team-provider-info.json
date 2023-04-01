@@ -23,6 +23,9 @@
       },
       "api": {
         "mercuryApi": {}
+      },
+      "auth": {
+        "mercurybf28ef59": {}
       }
     }
   }

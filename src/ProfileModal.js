@@ -3,9 +3,10 @@ import Modal from "@cloudscape-design/components/modal";
 import Box from "@cloudscape-design/components/box";
 import SpaceBetween from "@cloudscape-design/components/space-between";
 import Button from "@cloudscape-design/components/button";
+import { Header } from "@cloudscape-design/components";
 
 export default function ProfileModal() {
-    const [visible, setVisible] = React.useState(false);
+    const [visible, setVisible] = React.useState(true);
     return (
       <Modal
         onDismiss={() => setVisible(false)}
@@ -19,9 +20,18 @@ export default function ProfileModal() {
             </SpaceBetween>
           </Box>
         }
-        header="Modal title"
+        header={
+            <Header
+            variant = "h1"
+            className = "profile-modal"
+            >
+            Profile Info
+            </Header>
+        }
       >
-        Your description should go here
+        Email: <br></br>
+        
+        Password: <br></br>
       </Modal>
     );
 }

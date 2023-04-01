@@ -37,7 +37,7 @@ export default function App() {
             value={value}
             onChange={(event) => setValue(event.detail.value)}
           />
-          <Button variant="primary">Click me</Button>
+          <Button variant="primary">Manage</Button>
           <Button variant="primary">Button</Button>
           <AddAdressModal></AddAdressModal>
         </SpaceBetween>

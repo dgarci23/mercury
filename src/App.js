@@ -9,6 +9,8 @@ import {Authenticator} from "@aws-amplify/ui-react"
 import '@aws-amplify/ui-react/styles.css';
 import { Amplify, Auth } from 'aws-amplify';
 import AddAddressModal from "./Components/AddAddressModal";
+import ProfileModal from "./Components/ProfileModal";
+import CompanyModal from "./Components/CompanyModal";
 import awsconfig from './aws-exports';
 import './App.css';
 import CurrentAddressComponent from "./Components/CurrentAddressComponent";
@@ -40,7 +42,8 @@ export default function App() {
       }
     >
       <CurrentAddressComponent></CurrentAddressComponent>
-
+      <CompanyModal></CompanyModal>
     </ContentLayout>
+
   );
 }

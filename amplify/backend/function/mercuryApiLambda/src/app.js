@@ -45,19 +45,20 @@ app.get('/user/:userId', function(req, res) {
     }
 
     dynamodb.get(searchParams, (err, data) => {
-    if (err) {
-        res.status(500);
-        res.json({error: 'Could not load items: ' + err});
-    } else {
-        const body = {
-        userId: data.Item.userId,
-        name: data.Item.name,
-        email: data.Item.email,
-        phone: data.Item.phone
+        if (err) {
+            res.status(500);
+            res.json({error: 'Could not load items: ' + err});
+        } else {
+            const body = {
+            userId: data.Item.userId,
+            name: data.Item.name,
+            email: data.Item.email,
+            phone: data.Item.phone
+            }
+            res.status(200);
+            res.json(body);
         }
-        res.status(200);
-        res.json(body);
-    }
+    });
 });
 
 app.put('/user/:userId', function(req, res) {

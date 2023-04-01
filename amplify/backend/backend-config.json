@@ -48,6 +48,11 @@
       "build": true,
       "providerPlugin": "awscloudformation",
       "service": "Lambda"
+    },
+    "mercurySignupLambda": {
+      "build": true,
+      "providerPlugin": "awscloudformation",
+      "service": "Lambda"
     }
   },
   "hosting": {},
@@ -65,6 +70,22 @@
         {
           "category": "function",
           "resourceName": "mercuryApiLambda"
+        }
+      ]
+    },
+    "AMPLIFY_function_mercurySignupLambda_deploymentBucketName": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "mercurySignupLambda"
+        }
+      ]
+    },
+    "AMPLIFY_function_mercurySignupLambda_s3Key": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "mercurySignupLambda"
         }
       ]
     }

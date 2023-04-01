@@ -22,7 +22,8 @@ exports.handler = (event, context, callback) => {
       userId: event.userName,
       name: event.request.userAttributes.name,
       phone: event.request.userAttributes.phone_number,
-      email: event.request.userAttributes.email
+      email: event.request.userAttributes.email,
+      address: {}
     }
   }
 

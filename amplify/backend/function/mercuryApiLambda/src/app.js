@@ -30,7 +30,11 @@ app.get('/user/:userId', function(req, res) {
 });
 
 app.put('/user/:userId', function(req, res) {
-    res.json({response: "success"});
+    res.json({response: req.apiGateway.event.requestContext.authorizer.claims["cognito:username"]});
+});
+
+app.get('/user/:userId', function(req, res) {
+    res.json({response: req.apiGateway.event.requestContext.authorizer.claims["cognito:username"]});
 });
 
 app.listen(3000, function() {

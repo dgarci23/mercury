@@ -23,6 +23,11 @@ export default function App() {
   return (
     <Authenticator>
       {({signOut, user}) => {
+
+        //user = await Amplify.Auth.currentAuthenticatedUser();
+        const token = user.signInUserSession.idToken.jwtToken;
+        console.log(token);
+
         return (
           <div className="App">
             <SpaceBetween size="m">

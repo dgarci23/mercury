@@ -33,7 +33,15 @@ app.put('/user/:userId', function(req, res) {
     res.json({response: req.apiGateway.event.requestContext.authorizer.claims["cognito:username"]});
 });
 
-app.get('/user/:userId', function(req, res) {
+app.get('/user/address/:userId', function(req, res) {
+    res.json({response: req.apiGateway.event.requestContext.authorizer.claims["cognito:username"]});
+});
+
+app.post('/user/address/:userId', function(req, res) {
+    res.json({response: req.apiGateway.event.requestContext.authorizer.claims["cognito:username"]});
+});
+
+app.put('/user/address/:userId', function(req, res) {
     res.json({response: req.apiGateway.event.requestContext.authorizer.claims["cognito:username"]});
 });
 

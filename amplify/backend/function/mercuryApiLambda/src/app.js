@@ -66,7 +66,33 @@ app.put('/user/:userId', function(req, res) {
         return res.json({error: 'Wrong User'});
     }
 
-    res.json({response: req.apiGateway.event.requestContext.authorizer.claims["cognito:username"]});
+    let putItemParams = {
+        TableName: userTableName,
+        Key: {
+            "userId": req.params.userId
+        },
+        UpdateExpression: "SET #n = :n, #p = :p, #e = :e",
+        ExpressionAttributeValues: {
+            ":n": req.headers.name,
+            ":p": req.headers.phone,
+            ":e": req.headers.email
+        },
+        ExpressionAttributeNames: {
+          "#n": "name",
+          "#e": "email",
+          "#p": "phone"
+        }
+    };
+
+    dynamodb.update(putItemParams, (err, data) => {
+        if (err) {
+        console.log(err);
+        res.statusCode = 500;
+        res.json({error: "Could not update the user."});
+        } else {
+        res.json({success: 'User updated.'});
+        }
+    });
 });
 
 app.get('/user/address/:userId', function(req, res) {
@@ -95,7 +121,7 @@ app.get('/user/address/:userId', function(req, res) {
     })
 });
 
-app.post('/user/address/:userId', function(req, res) {
+/*app.post('/user/address/:userId', function(req, res) {
 
     if (req.apiGateway.event.requestContext.authorizer.claims["cognito:username"] !== req.params.userId) {
         res.statusCode = 401;
@@ -103,7 +129,7 @@ app.post('/user/address/:userId', function(req, res) {
     }
 
     res.json({response: req.apiGateway.event.requestContext.authorizer.claims["cognito:username"]});
-});
+});*/
 
 app.put('/user/address/:userId', function(req, res) {
 
@@ -120,8 +146,6 @@ app.put('/user/address/:userId', function(req, res) {
         zip: req.headers.zip
     }
 
-    //res.json({newAddress: JSON.stringify(newAddress)});
-
     let putItemParams = {
         TableName: userTableName,
         Key: {
@@ -137,9 +161,9 @@ app.put('/user/address/:userId', function(req, res) {
         if (err) {
         console.log(err);
         res.statusCode = 500;
-        res.json({error: err, url: req.url, body: req.body});
+        res.json({error: "Could not update the address."});
         } else {
-        res.json({success: 'post call succeed!', url: req.url, data: data})
+        res.json({success: 'Address updated.'});
         }
     });
 

@@ -51,18 +51,16 @@ class CurrentAddressComponent extends React.Component {
         {method:"GET", headers:{Authorization:token}})
                 .then(response => response.json())
                 .then(data => { 
-                    
-                    data = JSON.parse(data.response);
-
+                    data = data.response;
                     this.setState({
-                    ...this.state,
-                    streetAddress1: data.addressLine1,
-                    streetAddress2: data.addressLine2,
-                    city: data.city,
-                    USstate: data.state,
-                    zipCode: data.zip,
-        
-                });});
+                        ...this.state,
+                        streetAddress1: data.addressLine1,
+                        streetAddress2: data.addressLine2,
+                        city: data.city,
+                        USstate: data.state,
+                        zipCode: data.zip,
+                    });
+            });
     }
 
     async updateStatus(){

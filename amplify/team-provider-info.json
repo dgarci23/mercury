@@ -23,7 +23,7 @@
       "function": {
         "mercuryApiLambda": {
           "deploymentBucketName": "amplify-mercury-dev-203301-deployment",
-          "s3Key": "amplify-builds/mercuryApiLambda-676e5958796a36506a51-build.zip"
+          "s3Key": "amplify-builds/mercuryApiLambda-6c4b534a30593046516a-build.zip"
         },
         "mercurySignupLambda": {
           "deploymentBucketName": "amplify-mercury-dev-203301-deployment",

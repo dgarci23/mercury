@@ -56,7 +56,7 @@ app.get('/user/:userId', function(req, res) {
                 phone: data.Item.phone
             }
             res.status(200);
-            res.json({response: JSON.stringify(user)});
+            res.json({response: user});
         }
     });
 });
@@ -118,7 +118,7 @@ app.get('/user/address/:userId', function(req, res) {
             res.json({error: 'Could not load items'});
         } else {
             res.status(200);
-            res.json({response: JSON.stringify(data.Item.address)});
+            res.json({response: data.Item.address});
         }
     })
 });
@@ -162,7 +162,7 @@ app.put('/user/address/:userId', function(req, res) {
     dynamodb.update(putItemParams, (err, data) => {
         if (err) {
         console.log(err);
-        res.statusCode = 500;
+        res.status(500);
         res.json({error: "Could not update the address."});
         } else {
         res.json({success: 'Address updated.'});
@@ -197,13 +197,41 @@ app.put('/user/company/:userId', function(req, res) {
     dynamodb.update(putItemParams, (err, data) => {
         if (err) {
         console.log(err);
-        res.statusCode = 500;
+        res.status(500);
         res.json({error: "Could not add the company."});
         } else {
         res.json({success: 'Company added.'});
         }
     });
 
+});
+
+app.get('/company/user/:userId', function(req, res) {
+
+    const companyId = req.headers.companyid;
+
+    let searchParams = {
+        TableName: userTableName,
+        Key: {
+            "userId": req.params.userId
+        }
+    }
+
+    dynamodb.get(searchParams, (err, data) => {
+        if (err) {
+            console.log(err);
+            res.status(500);
+            res.json({error: "Could not obtain the address"});
+        } else {
+            const companies = data.Item.companies;
+            if (companyId in companies) {
+                res.json({response: data.Item.address});
+            } else {
+                res.status(401);
+                res.json({error: "Could not obtain the address"});
+            }
+        }
+    });
 });
 
 app.listen(3000, function() {

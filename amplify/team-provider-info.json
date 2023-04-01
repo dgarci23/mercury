@@ -14,6 +14,15 @@
     "categories": {
       "storage": {
         "dynamoMercury": {}
+      },
+      "function": {
+        "mercuryApiLambda": {
+          "deploymentBucketName": "amplify-mercury-dev-203301-deployment",
+          "s3Key": "amplify-builds/mercuryApiLambda-3862395157317a755355-build.zip"
+        }
+      },
+      "api": {
+        "mercuryApi": {}
       }
     }
   }

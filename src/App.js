@@ -13,6 +13,7 @@ import '@aws-amplify/ui-react/styles.css';
 import { Amplify, Auth } from 'aws-amplify';
 import AddAdressModal from "./AddAdressModal";
 import ProfileModal from "./ProfileModal";
+import CompanyModal from "./CompanyModal";
 import awsconfig from './aws-exports';
 
 Amplify.configure(awsconfig);
@@ -54,6 +55,8 @@ export default function App() {
       </Container>
       <AddAdressModal></AddAdressModal>
       <ProfileModal></ProfileModal>
+      <CompanyModal></CompanyModal>
     </ContentLayout>
+
   );
 }

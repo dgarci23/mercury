@@ -4,6 +4,7 @@ import Header from "@cloudscape-design/components/header";
 import SpaceBetween from "@cloudscape-design/components/space-between";
 import Button from "@cloudscape-design/components/button";
 import MercuryLogo from "./resources/FullLogo_Transparent_NoBuffer.png"
+import Box from "@cloudscape-design/components/box"
 
 import {Authenticator} from "@aws-amplify/ui-react"
 import '@aws-amplify/ui-react/styles.css';
@@ -16,7 +17,7 @@ import './App.css';
 import CurrentAddressComponent from "./Components/CurrentAddressComponent";
 
 Amplify.configure(awsconfig);
-class App extends React.Component() {
+class App extends React.Component {
 
 
   render() {
@@ -36,7 +37,12 @@ class App extends React.Component() {
             <Header
               variant="h1"
               actions={
-                <Button className="vertical-center" variant="primary" iconName="user-profile-active">Profile</Button>
+                <Box padding="xxl">
+                  <SpaceBetween direction="horizontal" size="xs">
+                  <Button variant="primary" iconName="user-profile-active">Profile</Button>
+                  <Button onClick={signOut}>Sign out</Button>
+                </SpaceBetween>
+                </Box>
               }
             >
               <div className="Logo-Container">
@@ -51,7 +57,7 @@ class App extends React.Component() {
         <CurrentAddressComponent></CurrentAddressComponent>
         <CompanyModal></CompanyModal>
       </ContentLayout>
-              <button onClick={signOut}>Sign out</button>
+              
             </div>
             )
         }}

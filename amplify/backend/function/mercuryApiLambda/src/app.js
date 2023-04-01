@@ -10,8 +10,8 @@ app.use(awsServerlessExpressMiddleware.eventContext())
 // DynamoDB configuration
 AWS.config.update({ region: process.env.TABLE_REGION });
 const dynamodb = new AWS.DynamoDB.DocumentClient();
-const userTableName = "users";
-const companyTableName = "companies";
+let userTableName = "users";
+let companyTableName = "companies";
 
 if (process.env.ENV && process.env.ENV !== "NONE") {
     userTableName = userTableName + '-' + process.env.ENV;

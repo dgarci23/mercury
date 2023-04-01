@@ -19,6 +19,9 @@ import CurrentAddressComponent from "./Components/CurrentAddressComponent";
 Amplify.configure(awsconfig);
 class App extends React.Component {
 
+  constructor(props) {
+    super(props);
+  }
 
   render() {
     return (
@@ -66,4 +69,4 @@ class App extends React.Component {
   }
 }
 
-export default App;
+export default App

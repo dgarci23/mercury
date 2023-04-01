@@ -40,12 +40,23 @@ class CurrentAddressComponent extends React.Component {
 
     path = "https://ebxzjgbuwa.execute-api.us-east-1.amazonaws.com/dev"
 
+    componentDidMount() {
+        this.getUserData();
+    }
+
     async getUserData() {
         const user = await Amplify.Auth.currentAuthenticatedUser();
         const token = user.signInUserSession.idToken.jwtToken;
-        fetch(`${this.path}/user/address/${user.username}`, {method:"GET", headers:{Authorization:token}})
+        fetch(`${this.path}/user/address/${user.username}`, 
+        {method:"GET", headers:{Authorization:token}})
                 .then(response => response.json())
-                .then(data => { this.setState({
+                .then(data => { 
+                    
+                    data = data.response;
+
+                    console.log(data);
+
+                    this.setState({
                     ...this.state,
                     streetAddress1: data.streetAddress1,
                     streetAddress2: data.streetAddress2,
@@ -66,7 +77,7 @@ class CurrentAddressComponent extends React.Component {
                 addressLine2 : this.state.streetAddress2 ,
                 city : this.state.city,
                 state : this.state.USstate,
-                zip : this.state.zipCode 
+                zip : this.state.zipCode
             }
             }
         )

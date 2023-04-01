@@ -20,6 +20,20 @@
       "permissions": {
         "setting": "open"
       }
+    },
+    "/user/company/{userId}": {
+      "name": "/user/company/{userId}",
+      "lambdaFunction": "mercuryApiLambda",
+      "permissions": {
+        "setting": "open"
+      }
+    },
+    "/company/user/{userId}": {
+      "name": "/company/user/{userId}",
+      "lambdaFunction": "mercuryApiLambda",
+      "permissions": {
+        "setting": "open"
+      }
     }
   }
 }

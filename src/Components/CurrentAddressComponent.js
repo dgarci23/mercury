@@ -52,14 +52,12 @@ class CurrentAddressComponent extends React.Component {
                 .then(response => response.json())
                 .then(data => { 
                     
-                    data = data.response;
-
-                    console.log(data);
+                    data = JSON.parse(data.response);
 
                     this.setState({
                     ...this.state,
-                    streetAddress1: data.streetAddress1,
-                    streetAddress2: data.streetAddress2,
+                    streetAddress1: data.addressLine1,
+                    streetAddress2: data.addressLine2,
                     city: data.city,
                     USstate: data.state,
                     zipCode: data.zip,
@@ -125,16 +123,13 @@ class CurrentAddressComponent extends React.Component {
                 <Container>
                     <SpaceBetween direction="vertical" size="s">
                         <Header variant="h2">Street: </Header>
-                        <p>
-                            {this.savedState.streetAddress1}    {this.savedState.streetAddress2}
-                        </p>
+                        <Header variant="h4">{this.state.streetAddress1}    {this.state.streetAddress2}</Header>
                         <Header variant="h2">City:</Header>
-                        {this.savedState.city}
+                        <Header variant="h4">{this.state.city}</Header>
                         <Header variant="h2">State:</Header>
-                        {this.savedState.USstate}
+                        <Header variant="h4">{this.state.USstate}</Header>
                         <Header variant="h2">Zip Code:</Header>
-                        {this.savedState.zipCode}
- 
+                        <Header variant="h4">{this.state.zipCode}</Header>
                     </SpaceBetween>
                     
                 </Container>

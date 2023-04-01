@@ -10,6 +10,11 @@
       "StackName": "amplify-mercury-dev-203301",
       "StackId": "arn:aws:cloudformation:us-east-1:560564503978:stack/amplify-mercury-dev-203301/c3d37a50-d024-11ed-91a6-0a4a260a6299",
       "AmplifyAppId": "d2p72uey2hpyhx"
+    },
+    "categories": {
+      "storage": {
+        "dynamoMercury": {}
+      }
     }
   }
 }

@@ -26,22 +26,54 @@ app.use(function(req, res, next) {
 });
 
 app.get('/user/:userId', function(req, res) {
+
+    if (req.apiGateway.event.requestContext.authorizer.claims["cognito:username"] !== req.params.userId) {
+        res.statusCode = 401;
+        return res.json({error: 'Wrong User'});
+    }
+
     res.json({response: req.apiGateway.event.requestContext.authorizer.claims["cognito:username"]});
 });
 
 app.put('/user/:userId', function(req, res) {
+
+    if (req.apiGateway.event.requestContext.authorizer.claims["cognito:username"] !== req.params.userId) {
+        res.statusCode = 401;
+        return res.json({error: 'Wrong User'});
+    }
+
     res.json({response: req.apiGateway.event.requestContext.authorizer.claims["cognito:username"]});
 });
 
 app.get('/user/address/:userId', function(req, res) {
+
+    if (req.apiGateway.event.requestContext.authorizer.claims["cognito:username"] !== req.params.userId) {
+        res.statusCode = 401;
+        return res.json({error: 'Wrong User'});
+    }
+
+
+
     res.json({response: req.apiGateway.event.requestContext.authorizer.claims["cognito:username"]});
 });
 
 app.post('/user/address/:userId', function(req, res) {
+
+    if (req.apiGateway.event.requestContext.authorizer.claims["cognito:username"] !== req.params.userId) {
+        res.statusCode = 401;
+        return res.json({error: 'Wrong User'});
+    }
+
     res.json({response: req.apiGateway.event.requestContext.authorizer.claims["cognito:username"]});
 });
 
 app.put('/user/address/:userId', function(req, res) {
+
+    if (req.apiGateway.event.requestContext.authorizer.claims["cognito:username"] !== req.params.userId) {
+        res.statusCode = 401;
+        return res.json({error: 'Wrong User'});
+    }
+
     res.json({response: req.apiGateway.event.requestContext.authorizer.claims["cognito:username"]});
 });
 

@@ -25,6 +25,8 @@ app.use(function(req, res, next) {
     next()
 });
 
+
+// GET /user/:userId, retrieve user information (userId, name, phone, email)
 app.get('/user/:userId', function(req, res) {
 
     if (req.apiGateway.event.requestContext.authorizer.claims["cognito:username"] !== req.params.userId) {
@@ -33,6 +35,28 @@ app.get('/user/:userId', function(req, res) {
     }
 
     res.json({response: req.apiGateway.event.requestContext.authorizer.claims["cognito:username"]});
+
+    let searchParams = {
+        TableName: userTableName,
+        Key: {
+            userId: req.params.userId
+        }
+    }
+
+    dynamodb.get(searchParams, (err, data) => {
+    if (err) {
+        res.status(500);
+        res.json({error: 'Could not load items: ' + err});
+    } else {
+        const body = {
+        userId: data.Item.userId,
+        name: data.Item.name,
+        email: data.Item.email,
+        phone: data.Item.phone
+        }
+        res.status(200);
+        res.json(body);
+    }
 });
 
 app.put('/user/:userId', function(req, res) {

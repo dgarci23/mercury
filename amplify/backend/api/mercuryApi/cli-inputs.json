@@ -5,6 +5,19 @@
       "name": "/user/{userId}",
       "lambdaFunction": "mercuryApiLambda",
       "permissions": {
+        "setting": "private",
+        "auth": [
+          "create",
+          "read",
+          "update",
+          "delete"
+        ]
+      }
+    },
+    "/user/address/{userId}": {
+      "name": "/user/address/{userId}",
+      "lambdaFunction": "mercuryApiLambda",
+      "permissions": {
         "setting": "open"
       }
     }

@@ -22,8 +22,16 @@ export default function App() {
 
 
   return (
-    
-    <ContentLayout
+    <Authenticator>
+      {({signOut, user}) => {
+
+        //user = await Amplify.Auth.currentAuthenticatedUser();
+        const token = user.signInUserSession.idToken.jwtToken;
+        console.log(token);
+
+        return (
+          <div className="App">
+            <ContentLayout
       header={
         <SpaceBetween size="m">
           <Header
@@ -44,6 +52,10 @@ export default function App() {
       <CurrentAddressComponent></CurrentAddressComponent>
       <CompanyModal></CompanyModal>
     </ContentLayout>
-
+            <button onClick={signOut}>Sign out</button>
+          </div>
+          )
+      }}
+    </Authenticator>
   );
 }

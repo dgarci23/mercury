@@ -9,7 +9,7 @@ exports.handler = (event, context, callback) => {
   // DynamoDB configuration
   AWS.config.update({ region: process.env.TABLE_REGION });
   const dynamodb = new AWS.DynamoDB.DocumentClient();
-  const tableName = "users";
+  let tableName = "users";
 
   if (process.env.ENV && process.env.ENV !== "NONE") {
     tableName = tableName + '-' + process.env.ENV;
@@ -22,7 +22,8 @@ exports.handler = (event, context, callback) => {
       userId: event.userName,
       name: event.request.userAttributes.name,
       phone: event.request.userAttributes.phone_number,
-      email: event.request.userAttributes.email
+      email: event.request.userAttributes.email,
+      address: {}
     }
   }
 

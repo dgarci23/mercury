@@ -55,15 +55,14 @@ class CompanyModal extends React.Component {
       <Container
         header={
           <Header
-            variant="h2"
+            variant="h1"
             actions={
               <Button onClick={() => { this.setVisible(true) }}
                 >
                 Manage Companies
               </Button>}
           >
-            Company Subscriptions <br></br>
-
+            Address Subscriptions
           </Header>
         }
 

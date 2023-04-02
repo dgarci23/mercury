@@ -16,6 +16,7 @@ import './App.css';
 import ColumnLayout from "@cloudscape-design/components/column-layout";
 import Contaier from "@cloudscape-design/components/container"
 import Dashboard from "./Components/Dashboard";
+import { Box } from "@cloudscape-design/components";
 
 
 Amplify.configure(awsconfig);
@@ -40,7 +41,9 @@ export default function App() {
                   <Header
                     variant="h1"
                     actions={
-                      <Button className="vertical-center" variant="primary" iconName="user-profile-active">Profile</Button>
+                      <Box padding={"xxl"}>
+                        <Button onClick={signOut}>Sign out</Button>
+                      </Box>
                     }
                   >
                     <div className="Logo-Container">
@@ -57,7 +60,6 @@ export default function App() {
               </Contaier>
 
             </ContentLayout>
-            <button onClick={signOut}>Sign out</button>
           </div>
         )
       }}

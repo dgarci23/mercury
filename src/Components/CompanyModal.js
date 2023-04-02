@@ -50,13 +50,10 @@ class CompanyModal extends React.Component {
         data = data.response;
         const companies = [];
         for (let key in data){
-          console.log(key);
-          console.log(data[key]);
           if (data[key]) {
             companies.push({name:key});
           }
         }
-        console.log(companies);
         this.setState({ companies: companies });
       });
   }
@@ -67,6 +64,16 @@ class CompanyModal extends React.Component {
     fetch(`${this.path}/user/company/${user.username}?company=${companyName}`,
       { method: "PUT", headers: { Authorization: token } })
       .then(()=>this.getCompanies());
+  }
+
+  async deleteCompanies() {
+    const user = await Amplify.Auth.currentAuthenticatedUser();
+    const token = user.signInUserSession.idToken.jwtToken;
+    this.state.selectedItems.forEach((item)=>{
+      fetch(`${this.path}/user/company/${user.username}?company=${item.name}`,
+      { method: "DELETE", headers: { Authorization: token } })
+      .then(()=>this.getCompanies());
+    });
   }
 
 
@@ -121,9 +128,14 @@ class CompanyModal extends React.Component {
             <Header
               variant="h1"
               actions={
-                <Button onClick={() => {
+                <SpaceBetween direction="horizontal" size="xs">
+                  <Button onClick={() => {
                   this.setVisible(true)
-                }}>Add Company</Button>
+                }}>Add</Button>
+                <Button variant="secondary" onClick={() => {
+                  this.deleteCompanies()
+                }}>Delete</Button>
+                </SpaceBetween>
               }
             >
               Selected Companies <br></br>
@@ -156,7 +168,9 @@ class CompanyModal extends React.Component {
           }
           header="Add a Company"
         >
+          <FormField label="Company Name">
             <Input value={this.state.companyName} onChange={({ detail }) => this.setState({companyName:detail.value})}/>
+          </FormField>
         </Modal>
       </div>
     );

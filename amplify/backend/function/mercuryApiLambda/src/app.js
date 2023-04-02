@@ -234,6 +234,11 @@ app.put('/user/company/:userId', function(req, res) {
 
 app.get('/company/user/:userId', function(req, res) {
 
+    if (req.apiGateway.event.requestContext.authorizer.claims["cognito:username"] !== req.params.userId) {
+        res.statusCode = 401;
+        return res.json({error: 'Wrong User'});
+    }
+
     const companyId = req.headers.companyid;
 
     let searchParams = {
@@ -260,7 +265,7 @@ app.get('/company/user/:userId', function(req, res) {
     });
 });
 
-app.delete('/company/user/:userId', function(req, res) {
+app.delete('/user/company/:userId', function(req, res) {
 
     const newCompany = req.query.company;
 

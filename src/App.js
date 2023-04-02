@@ -55,9 +55,7 @@ export default function App() {
                 </SpaceBetween>
               }
             >
-              <Contaier>
                 <Dashboard></Dashboard>
-              </Contaier>
 
             </ContentLayout>
           </div>

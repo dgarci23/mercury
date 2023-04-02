@@ -15,24 +15,7 @@ class CompanyModal extends React.Component {
 
     this.state = {
       visible: false,
-      companyList: [
-        {
-          label: "Amazon",
-        },
-        {
-          label: "Chewy",
-        },
-        {
-          label: "Blue Apron",
-        },
-        {
-          label: "BloomsyBox",
-        },
-        {
-          label: "Dollar Shave Club",
-        }
-      ],
-  companies: {},
+      companies: [],
       selectedItems: []
     }
 
@@ -52,7 +35,6 @@ class CompanyModal extends React.Component {
   }
 
   path = "https://ebxzjgbuwa.execute-api.us-east-1.amazonaws.com/dev"
-
   async getCompanies() {
     const user = await Amplify.Auth.currentAuthenticatedUser();
     const token = user.signInUserSession.idToken.jwtToken;
@@ -61,14 +43,24 @@ class CompanyModal extends React.Component {
     .then(response => response.json())
             .then(data => {
                 data = data.response;
+                console.log(data)
                 this.setState({companies: data});
             });
   }
+  async addCompany(companyName) {
+    const user = await Amplify.Auth.currentAuthenticatedUser();
+    const token = user.signInUserSession.idToken.jwtToken;
+    fetch(`${this.path}/user/company/${user.username}?company=${companyName}`,
+    { method: "PUT", headers: { Authorization: token } })
+  }
+
+  addCompanyButton(){
+    this.addCompany("CHEESEIT")
+  }
+
   
   render() {
     return (
-      
-
         <Table
           onSelectionChange={({ detail }) =>
           this.setSelectedItems(detail.selectedItems)
@@ -95,51 +87,37 @@ class CompanyModal extends React.Component {
               sortingField: "name"
             },
           ]}
-          items={[
-            {
-              name: "Item 1",
-            },
-            {
-              name: "Item 2",
-            },
-            {
-              name: "Item 3",
-            },
-            {
-              name: "Item 4",
-            },
-            {
-              name: "Item 5",
-            },
-            {
-              name: "Item 6",
-            }
-          ]}
+          items={this.state.companies}
           loadingText="Loading resources"
           selectionType="multi"
           trackBy="name"
           visibleColumns={["companyId"]}
           empty={
             <Box textAlign="center" color="inherit">
-              <b>No resources</b>
+              <b>No Companies</b>
               <Box
                 padding={{ bottom: "s" }}
                 variant="p"
                 color="inherit"
               >
-                No resources to display.
+                No Companies are Active.
               </Box>
-              <Button>Create resource</Button>
             </Box>
           }
           header={
             <Header
               variant="h1"
+              actions={
+                <Button onClick={() => {
+                  this.addCompanyButton()
+              }}>Add Company</Button>
+              }
             >
-              Company Subscriptions <br></br>
+              Selected Companies <br></br>
   
             </Header>
-          }        />
+          }        
+        />
 
     );
   }

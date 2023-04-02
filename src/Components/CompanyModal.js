@@ -6,6 +6,8 @@ import SpaceBetween from "@cloudscape-design/components/space-between";
 import Button from "@cloudscape-design/components/button";
 import { Header } from "@cloudscape-design/components";
 import Multiselect from "@cloudscape-design/components/multiselect";
+import Table from "@cloudscape-design/components/table";
+
 
 class CompanyModal extends React.Component {
   constructor(props) {
@@ -16,29 +18,24 @@ class CompanyModal extends React.Component {
       companyList: [
         {
           label: "Amazon",
-          value: "1",
         },
         {
           label: "Chewy",
-          value: "2",
         },
         {
           label: "Blue Apron",
-          value: "3",
         },
         {
           label: "BloomsyBox",
-          value: "4",
         },
         {
           label: "Dollar Shave Club",
-          value: "5",
         }
       ],
-    
-      selectedOptions: []
+
+      selectedItems: []
     }
-      
+
   }
 
 
@@ -46,64 +43,86 @@ class CompanyModal extends React.Component {
     this.setState({ visible: value })
   }
 
-  setSelectedOptions(value){
-    this.setState({ selectedOptions: value})
+  setSelectedItems(value) {
+    this.setState({ selectedItems: value })
   }
-  
+
   render() {
     return (
-      <Container
-        header={
-          <Header
-            variant="h2"
-            actions={
-              <Button onClick={() => { this.setVisible(true) }}
-                >
-                Manage Companies
-              </Button>}
-          >
-            Company Subscriptions <br></br>
+      
 
-          </Header>
-        }
-
-      >
-
-        <Modal
-          onDismiss={() => this.setVisible(false)}
-          visible={this.state.visible}
-          closeAriaLabel="Close modal"
-          footer={
-            <Box float="right">
-              <SpaceBetween direction="horizontal" size="xs">
-                <Button variant="link" onClick={() => this.setVisible(false)}>Cancel</Button>
-                <Button variant="primary" onClick={() => this.setVisible(false)
-                }>Ok</Button>
-              </SpaceBetween>
+        <Table
+          onSelectionChange={({ detail }) =>
+          this.setSelectedItems(detail.selectedItems)
+          }
+          selectedItems={this.state.selectedItems}
+          ariaLabels={{
+            selectionGroupLabel: "Items selection",
+            allItemsSelectionLabel: ({ selectedItems }) =>
+              `${selectedItems.length} ${selectedItems.length === 1 ? "item" : "items"
+              } selected`,
+            itemSelectionLabel: ({ selectedItems }, item) => {
+              const isItemSelected = selectedItems.filter(
+                i => i.name === item.name
+              ).length;
+              return `${item.name} is ${isItemSelected ? "" : "not"
+                } selected`;
+            }
+          }}
+          columnDefinitions={[
+            {
+              id: "companyId",
+              header: "Company Name",
+              cell: e => e.name,
+              sortingField: "name"
+            },
+          ]}
+          items={[
+            {
+              name: "Item 1",
+            },
+            {
+              name: "Item 2",
+            },
+            {
+              name: "Item 3",
+            },
+            {
+              name: "Item 4",
+            },
+            {
+              name: "Item 5",
+            },
+            {
+              name: "Item 6",
+            }
+          ]}
+          loadingText="Loading resources"
+          selectionType="multi"
+          trackBy="name"
+          visibleColumns={["companyId"]}
+          empty={
+            <Box textAlign="center" color="inherit">
+              <b>No resources</b>
+              <Box
+                padding={{ bottom: "s" }}
+                variant="p"
+                color="inherit"
+              >
+                No resources to display.
+              </Box>
+              <Button>Create resource</Button>
             </Box>
           }
           header={
             <Header
               variant="h1"
-              className="comp-modal"
             >
-              Manage Companies
+              Company Subscriptions <br></br>
+  
             </Header>
-          }
-        >
-          <Multiselect
-                  selectedOptions={this.state.selectedOptions}
-                  onChange={
-                    ({ detail }) =>this.setSelectedOptions(detail.selectedOptions)
-                  }
-                  deselectAriaLabel={e => `Remove ${e.label}`}
-                  options={this.state.companyList}
-                  hideTokens
-                  placeholder="Choose options"
-                  selectedAriaLabel="Selected"
-                />
-        </Modal>
-      </Container>
+          }        />
+
     );
   }
 }

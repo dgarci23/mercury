@@ -250,12 +250,41 @@ app.get('/company/user/:userId', function(req, res) {
             res.json({error: "Could not obtain the address"});
         } else {
             const companies = data.Item.companies;
-            if (companyId in companies) {
+            if (companyId in companies && companies[companyId]===true) {
                 res.json({response: data.Item.address});
             } else {
                 res.status(401);
                 res.json({error: "Could not obtain the address"});
             }
+        }
+    });
+});
+
+app.delete('/company/user/:userId', function(req, res) {
+
+    const newCompany = req.query.company;
+
+    let putItemParams = {
+        TableName: userTableName,
+        Key: {
+            "userId": req.params.userId
+        },
+        UpdateExpression: "SET companies.#companyName = :companyValue",
+        ExpressionAttributeValues: {
+            ":companyValue": false
+        },
+        ExpressionAttributeNames: {
+            "#companyName": newCompany
+        }
+    };
+
+    dynamodb.update(putItemParams, (err, data) => {
+        if (err) {
+        console.log(err);
+        res.status(500);
+        res.json({error: "Could not delete the company."});
+        } else {
+        res.json({success: 'Company deleted.'});
         }
     });
 });

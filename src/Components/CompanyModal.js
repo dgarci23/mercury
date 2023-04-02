@@ -48,8 +48,16 @@ class CompanyModal extends React.Component {
       .then(response => response.json())
       .then(data => {
         data = data.response;
-        console.log(data)
-        this.setState({ companies: data });
+        const companies = [];
+        for (let key in data){
+          console.log(key);
+          console.log(data[key]);
+          if (data[key]) {
+            companies.push({name:key});
+          }
+        }
+        console.log(companies);
+        this.setState({ companies: companies });
       });
   }
 
@@ -58,6 +66,7 @@ class CompanyModal extends React.Component {
     const token = user.signInUserSession.idToken.jwtToken;
     fetch(`${this.path}/user/company/${user.username}?company=${companyName}`,
       { method: "PUT", headers: { Authorization: token } })
+      .then(()=>this.getCompanies());
   }
 
 

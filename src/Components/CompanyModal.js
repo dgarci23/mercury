@@ -8,6 +8,10 @@ import { Header } from "@cloudscape-design/components";
 import Multiselect from "@cloudscape-design/components/multiselect";
 import Table from "@cloudscape-design/components/table";
 import { Amplify } from 'aws-amplify';
+import Input from "@cloudscape-design/components/input";
+import FormField from "@cloudscape-design/components/form-field";
+
+
 
 class CompanyModal extends React.Component {
   constructor(props) {
@@ -16,7 +20,8 @@ class CompanyModal extends React.Component {
     this.state = {
       visible: false,
       companies: [],
-      selectedItems: []
+      selectedItems: [],
+      companyName: "" 
     }
 
   }
@@ -39,31 +44,30 @@ class CompanyModal extends React.Component {
     const user = await Amplify.Auth.currentAuthenticatedUser();
     const token = user.signInUserSession.idToken.jwtToken;
     fetch(`${this.path}/user/company/${user.username}`,
-    { method: "GET", headers: { Authorization: token } })
-    .then(response => response.json())
-            .then(data => {
-                data = data.response;
-                console.log(data)
-                this.setState({companies: data});
-            });
+      { method: "GET", headers: { Authorization: token } })
+      .then(response => response.json())
+      .then(data => {
+        data = data.response;
+        console.log(data)
+        this.setState({ companies: data });
+      });
   }
+
   async addCompany(companyName) {
     const user = await Amplify.Auth.currentAuthenticatedUser();
     const token = user.signInUserSession.idToken.jwtToken;
     fetch(`${this.path}/user/company/${user.username}?company=${companyName}`,
-    { method: "PUT", headers: { Authorization: token } })
+      { method: "PUT", headers: { Authorization: token } })
   }
 
-  addCompanyButton(){
-    this.addCompany("CHEESEIT")
-  }
 
-  
+
   render() {
     return (
+      <div>
         <Table
           onSelectionChange={({ detail }) =>
-          this.setSelectedItems(detail.selectedItems)
+            this.setSelectedItems(detail.selectedItems)
           }
           selectedItems={this.state.selectedItems}
           ariaLabels={{
@@ -109,16 +113,43 @@ class CompanyModal extends React.Component {
               variant="h1"
               actions={
                 <Button onClick={() => {
-                  this.addCompanyButton()
-              }}>Add Company</Button>
+                  this.setVisible(true)
+                }}>Add Company</Button>
               }
             >
               Selected Companies <br></br>
-  
+
             </Header>
-          }        
+          }
         />
 
+
+        {/* ik modal shouldnt be here but time */}
+        <Modal
+          onDismiss={() => this.setVisible(false)}
+          visible={this.state.visible}
+          closeAriaLabel="Close modal"
+          footer={
+            <Box float="right">
+              <SpaceBetween direction="horizontal" size="xs">
+                <Button variant="link" onClick={() => {
+                  this.setVisible(false)
+                  this.setState({companyName:""})
+                }}>Cancel</Button>
+
+                <Button variant="primary" onClick={() => {
+                  this.setVisible(false)
+                  this.addCompany(this.state.companyName)
+                  this.setState({companyName:""})
+                }}>Add</Button>
+              </SpaceBetween>
+            </Box>
+          }
+          header="Add a Company"
+        >
+            <Input value={this.state.companyName} onChange={({ detail }) => this.setState({companyName:detail.value})}/>
+        </Modal>
+      </div>
     );
   }
 }

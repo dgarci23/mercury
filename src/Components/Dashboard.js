@@ -1,4 +1,4 @@
-import * as React from "react";
+import React from "react";
 import Container from "@cloudscape-design/components/container";
 import Header from "@cloudscape-design/components/header";
 import SpaceBetween from "@cloudscape-design/components/space-between";
@@ -10,7 +10,6 @@ import FormField from "@cloudscape-design/components/form-field";
 import Input from "@cloudscape-design/components/input";
 import { Amplify } from 'aws-amplify';
 import CompanyModal from "./CompanyModal";
-import { Grid } from "@aws-amplify/ui-react";
 import ColumnLayout from "@cloudscape-design/components/column-layout"
 
 
@@ -159,16 +158,9 @@ class Dashboard extends React.Component {
                         }
                         header="Edit Address"
                     >
-                        <form onSubmit={e => e.preventDefault()}>
                             <Form>
                                 <Container>
                                     <SpaceBetween direction="vertical" size="l">
-                                        <FormField label="Name">
-                                            <Input
-                                                onChange={({ detail }) => this.setState({ name: detail.value })}
-                                                value={this.state.name}
-                                            />
-                                        </FormField>
                                         <FormField label="Street Address 1">
                                             <Input
                                                 onChange={({ detail }) => this.setState({ streetAddress1: detail.value })}
@@ -202,7 +194,6 @@ class Dashboard extends React.Component {
                                     </SpaceBetween>
                                 </Container>
                             </Form>
-                        </form>
 
                     </Modal>
                 </Container>

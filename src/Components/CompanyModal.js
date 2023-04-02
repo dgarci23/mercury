@@ -7,7 +7,7 @@ import Button from "@cloudscape-design/components/button";
 import { Header } from "@cloudscape-design/components";
 import Multiselect from "@cloudscape-design/components/multiselect";
 import Table from "@cloudscape-design/components/table";
-
+import { Amplify } from 'aws-amplify';
 
 class CompanyModal extends React.Component {
   constructor(props) {
@@ -32,10 +32,14 @@ class CompanyModal extends React.Component {
           label: "Dollar Shave Club",
         }
       ],
-
+  companies: {},
       selectedItems: []
     }
 
+  }
+
+  componentDidMount() {
+    this.getCompanies();
   }
 
 
@@ -47,6 +51,20 @@ class CompanyModal extends React.Component {
     this.setState({ selectedItems: value })
   }
 
+  path = "https://ebxzjgbuwa.execute-api.us-east-1.amazonaws.com/dev"
+
+  async getCompanies() {
+    const user = await Amplify.Auth.currentAuthenticatedUser();
+    const token = user.signInUserSession.idToken.jwtToken;
+    fetch(`${this.path}/user/company/${user.username}`,
+    { method: "GET", headers: { Authorization: token } })
+    .then(response => response.json())
+            .then(data => {
+                data = data.response;
+                this.setState({companies: data});
+            });
+  }
+  
   render() {
     return (
       

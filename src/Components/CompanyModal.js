@@ -6,6 +6,7 @@ import SpaceBetween from "@cloudscape-design/components/space-between";
 import Button from "@cloudscape-design/components/button";
 import { Header } from "@cloudscape-design/components";
 import Multiselect from "@cloudscape-design/components/multiselect";
+import { Amplify } from 'aws-amplify';
 
 class CompanyModal extends React.Component {
   constructor(props) {
@@ -14,31 +15,16 @@ class CompanyModal extends React.Component {
     this.state = {
       visible: false,
       companyList: [
-        {
-          label: "Amazon",
-          value: "1",
-        },
-        {
-          label: "Chewy",
-          value: "2",
-        },
-        {
-          label: "Blue Apron",
-          value: "3",
-        },
-        {
-          label: "BloomsyBox",
-          value: "4",
-        },
-        {
-          label: "Dollar Shave Club",
-          value: "5",
-        }
+
       ],
-    
+      companies: {},
       selectedOptions: []
     }
       
+  }
+
+  componentDidMount() {
+    this.getCompanies();
   }
 
 
@@ -48,6 +34,20 @@ class CompanyModal extends React.Component {
 
   setSelectedOptions(value){
     this.setState({ selectedOptions: value})
+  }
+
+  path = "https://ebxzjgbuwa.execute-api.us-east-1.amazonaws.com/dev"
+
+  async getCompanies() {
+    const user = await Amplify.Auth.currentAuthenticatedUser();
+    const token = user.signInUserSession.idToken.jwtToken;
+    fetch(`${this.path}/user/company/${user.username}`,
+    { method: "GET", headers: { Authorization: token } })
+    .then(response => response.json())
+            .then(data => {
+                data = data.response;
+                this.setState({companies: data});
+            });
   }
   
   render() {

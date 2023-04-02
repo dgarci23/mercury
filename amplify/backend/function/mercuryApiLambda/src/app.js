@@ -171,6 +171,32 @@ app.put('/user/address/:userId', function(req, res) {
 
 });
 
+app.get('/user/company/:userId', function(req, res) {
+
+    if (req.apiGateway.event.requestContext.authorizer.claims["cognito:username"] !== req.params.userId) {
+        res.statusCode = 401;
+        return res.json({error: 'Wrong User'});
+    }
+
+    let searchParams = {
+        TableName: userTableName,
+        Key: {
+            "userId": req.params.userId
+        }
+    };
+
+    dynamodb.get(searchParams, (err, data) => {
+        if (err) {
+        console.log(err);
+        res.status(500);
+        res.json({error: "Could not get the companies."});
+        } else {
+        res.json({response: data.Item.companies});
+        }
+    });
+
+});
+
 app.put('/user/company/:userId', function(req, res) {
 
     if (req.apiGateway.event.requestContext.authorizer.claims["cognito:username"] !== req.params.userId) {

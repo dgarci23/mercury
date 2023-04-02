@@ -51,8 +51,6 @@ class App extends React.Component {
                       <div className="Logo-Container">
                         <img src={MercuryLogo} className="Logo-Image" alt="logo" />
                       </div>
-
-
                     </Header>
                   </SpaceBetween>
                 }

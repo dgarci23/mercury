@@ -58,8 +58,8 @@ class CompanyModal extends React.Component {
             variant="h2"
             actions={
               <Button onClick={() => { this.setVisible(true) }}
-                variant="primary">
-                Manage
+                >
+                Manage Companies
               </Button>}
           >
             Company Subscriptions <br></br>

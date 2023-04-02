@@ -81,16 +81,7 @@ class Dashboard extends React.Component {
 
     // resets  the address lines to what is on the database
     resetState() {
-        this.setState({
-            name: this.savedState.name,
-            streetAddress1: this.savedState.streetAddress1,
-            streetAddress2: this.savedState.streetAddress2,
-            city: this.savedState.city,
-            USstate: this.savedState.USstate,
-            zipCode: this.savedState.zipCode
-        })
-
-
+        this.getUserData();
     }
 
     // pushes the current address to the database
